@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Игра в города</title>
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="game-info">
+        <h1>Игра в города</h1>
+        <p>
+          Игроки должны вводить <b>название города</b> начинающиеся с
+          <b>последней буквы</b> предыдущего города.
+        </p>
+        <p>Выигрывает игрок, который ввел большее количество городов.</p>
+      </div>
+      <input
+        class="city-input"
+        autocomplete="off"
+        type="text"
+        placeholder="Введите название города. Например: Москва"
+      />
+      <p class="message">
+        Игрок 1 вводит город: <b>Москва</b>. Введите город начинающийся с
+        последней буквы <b>А</b>
+      </p>
+      <div class="buttons-row">
+        <button class="start-button">Начать игру</button>
+        <button class="finish-button">Завершить игру</button>
+      </div>
+      <div class="result"></div>
+    </div>
+  </body>
+</html>

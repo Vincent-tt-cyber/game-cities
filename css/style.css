@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Advent Pro", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0px;
+}
+
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #d9ca85;
+  padding: 30px;
+  border-radius: 15px;
+}
+
+.game-info {
+  text-align: center;
+}
+
+.game-info h1 {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+.game-info p {
+  font-size: 18px;
+}
+.game-info p:last-child {
+  margin-bottom: 15px;
+}
+
+.city-input {
+  background-color: #fff;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin: 15px 0px;
+  width: 100%;
+  font-size: 18px;
+
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.city-input:focus {
+  border-color: #968742;
+}
+
+.message {
+  text-align: center;
+  font-size: 18px;
+  margin: 15px 0px;
+  color: #000;
+  /* display: none; */
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0px;
+}
+
+.start-button {
+  background-color: #429668;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #fff;
+  color: #429668;
+  border-color: #429668;
+}
+
+.finish-button {
+  background-color: #968742;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.finish-button:hover {
+  background-color: #fff;
+  color: #968742;
+  border-color: #968742;
+}
