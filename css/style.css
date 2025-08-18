@@ -30,6 +30,7 @@ body {
 .current-player {
   font-weight: 700;
   color: #429668;
+  display: none;
 }
 
 .game-info h1 {
