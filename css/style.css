@@ -12,7 +12,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px 0px;
+  padding: 50px 15px;
 }
 
 .game-container {
@@ -25,6 +25,11 @@ body {
 
 .game-info {
   text-align: center;
+}
+
+.current-player {
+  font-weight: 700;
+  color: #429668;
 }
 
 .game-info h1 {
@@ -49,6 +54,7 @@ body {
 
   outline: none;
   transition: all 0.3s ease;
+  display: none;
 }
 
 .city-input:focus {
@@ -60,7 +66,8 @@ body {
   font-size: 18px;
   margin: 15px 0px;
   color: #000;
-  /* display: none; */
+  white-space: normal;
+  display: none;
 }
 
 .buttons-row {
