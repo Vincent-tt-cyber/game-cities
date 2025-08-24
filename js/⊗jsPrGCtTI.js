@@ -8,12 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultDiv = document.querySelector(".result");
 
   // Города
-  let cities = [];
+  let citiesData = [];
 
   // Игровые переменные
   let isFirstStart = true;
   let currentPlayer = 1;
-  let fisrtLetter = null;
+  let lastLetter = null;
+  // let fisrtLetter = null;
 
   startButton.addEventListener("click", startGame);
   finishButton.addEventListener("click", finishGame);
@@ -34,73 +35,67 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isFirstStart) {
       message.textContent = `Игрок ${currentPlayer}, введите любой город.`;
       message.style.display = "block";
-      isFirstStart = false;
       cityInput.focus();
     }
 
     cityInput.addEventListener("keypress", handleCityInput);
   }
 
-  function handleCityInput(event) {
-    if (event.key !== "Enter") return;
+  // Обработка ввода города
+  function handleCityInput(e) {
+    if (e.key === "Enter") {
+      let cityValue =
+        cityInput.value[0].toUpperCase() + cityInput.value.slice(1);
 
-    const city = cityInput.value;
+      if (!cityValue || cityValue == "") {
+        message.innerHTML = "Введите название города.";
+        return;
+      }
 
-    if (!city) return;
+      const someCity = citiesData.some((city) => city.name == cityValue);
+      if (someCity) {
+        message.innerHTML = `Город <b>${cityValue}</b> уже был назван. Введите город начинающийся с буквы <b>${lastLetter}</b>.`;
+        cityInput.value = "";
+        return;
+      }
 
-    let lastAddCity = cities.some(
-      (item) => item.name.toLowerCase() == city.toLowerCase()
-    );
+      // Проверка на первый запуск
+      if (isFirstStart) {
+        // Добавить первый город в массив
+        addCityToArray(cityValue);
 
-    // Последняя буква
-    let lastLetter = getLastLetter(city);
-    fisrtLetter = lastLetter;
+        // Последняя буква города
+        lastLetter = citiesData[citiesData.length - 1].name
+          .slice(-1)
+          .toUpperCase();
 
-    if (lastAddCity) {
-      fisrtLetter = getLastLetter(cities[cities.length - 1].name);
-      message.innerHTML = `Город <b>${
-        city[0].toUpperCase() + city.slice(1)
-      }</b> уже был введен. Введите другой город на букву <b>${fisrtLetter.toUpperCase()}</b>.`;
+        // отключаем первый запуск
+        isFirstStart = false;
 
+        message.innerHTML = `Игрок ${currentPlayer}, ввел город: <b>${cityValue}</b>.  Введите город начинающийся с буквы <b>${lastLetter}</b>. `;
+      } else {
+        // Проверяем есть ли уже такой город в массиве
+        let firstLetter = cityValue[0].toUpperCase();
+        if (firstLetter !== lastLetter) {
+          message.innerHTML = `Название города должно начинаться с буквы <b style="color: red">${lastLetter}</b>.`;
+        } else {
+          addCityToArray(cityValue);
+          message.innerHTML = `Игрок ${currentPlayer}, ввел город: <b>${cityValue}</b>.  Введите город начинающийся с буквы <b>${lastLetter}</b>. `;
+        }
+      }
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      currentPlayerElem.textContent = `Вводит: Игрок ${currentPlayer}`;
       cityInput.value = "";
-      cityInput.focus();
-
-      return;
     }
+  }
 
-    console.log("Последняя буква", lastLetter);
-    console.log("Должны быть первая буква", fisrtLetter);
-
-    // Добавляем город
-    cities.push({
-      name: city[0].toUpperCase() + city.slice(1),
+  function addCityToArray(city) {
+    citiesData.push({
+      name: city,
       player: currentPlayer,
     });
 
-    // Обновление интерфейса
-    message.innerHTML = `Игрок ${currentPlayer} ввел город: <b>${
-      cities[cities.length - 1].name
-    }</b>. Следующий город должен начинаться на букву <b>${lastLetter.toUpperCase()}</b>.`;
-
-    //Меняем игрока
-    currentPlayer = currentPlayer === 1 ? 2 : 1;
-    currentPlayerElem.textContent = `Вводит: Игрок ${currentPlayer}`;
-
-    // Сбрасываем инпут
-    cityInput.value = "";
-    cityInput.focus();
-
-    console.log(cities);
-  }
-
-  function getLastLetter(word) {
-    const lastChar = word[word.length - 1].toLowerCase();
-
-    // исключаем проблемные буквы
-    if (["ь", "ъ", "ы"].includes(lastChar)) {
-      return word[word.length - 2].toLowerCase();
-    }
-    return lastChar;
+    lastLetter = city.slice(-1).toUpperCase();
   }
 
   function finishGame() {
@@ -108,8 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
     startButton.style.display = "block";
     finishButton.style.display = "none";
 
-    const player1Cities = cities.filter((city) => city.player === 1).length;
-    const player2Cities = cities.filter((city) => city.player === 2).length;
+    const player1Cities = citiesData.filter((city) => city.player === 1).length;
+    const player2Cities = citiesData.filter((city) => city.player === 2).length;
 
     let winMessage = "";
     if (player1Cities > player2Cities) {
@@ -123,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resultDiv.innerHTML = `
     <h3>Игра окончена!</h3>
     <p>${winMessage}</p>
-    <p>Всего названо городов: ${cities.length}</p>
+    <p>Всего названо городов: ${citiesData.length}</p>
     `;
 
     cityInput.style.display = "none";
@@ -131,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     message.style.display = "none";
     gameInfo.forEach((info) => (info.style.display = "block"));
 
-    cities = [];
+    citiesData = [];
     isFirstStart = true;
     currentPlayer = 1;
     requiredLetter = null;
