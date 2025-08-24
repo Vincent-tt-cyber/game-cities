@@ -48,38 +48,44 @@ document.addEventListener("DOMContentLoaded", () => {
         cityInput.value[0].toUpperCase() + cityInput.value.slice(1);
 
       if (!cityValue || cityValue == "") {
-        message.textContent = "Введите название города.";
+        message.innerHTML = "Введите название города.";
+        return;
+      }
+
+      const someCity = citiesData.some((city) => city.name == cityValue);
+      if (someCity) {
+        message.innerHTML = `Город <b>${cityValue}</b> уже был назван. Введите город начинающийся с буквы <b>${lastLetter}</b>.`;
+        cityInput.value = "";
         return;
       }
 
       // Проверка на первый запуск
       if (isFirstStart) {
+        // Добавить первый город в массив
         addCityToArray(cityValue);
-        isFirstStart = false;
 
         // Последняя буква города
         lastLetter = citiesData[citiesData.length - 1].name
           .slice(-1)
           .toUpperCase();
 
-        message.innerHTML = `Игрок ${currentPlayer}, введите город начинающийся с буквы <b>${lastLetter}</b>`;
-        // Очистка инпута
-        cityInput.value = "";
-        message.textContent = "";
-      }
+        // отключаем первый запуск
+        isFirstStart = false;
 
-      if (!isFirstStart) {
-        const someCity = citiesData.some((city) => city.name == cityValue);
-        // let firtLetter = cityValue[0].toUpperCase();
-
-        if (someCity) {
-          message.innerHtml = `Город <b>${cityValue}</b> уже был назван. Введите город начинающийся с буквы <b>${lastLetter}</b>`;
+        message.innerHTML = `Игрок ${currentPlayer}, ввел город: <b>${cityValue}</b>.  Введите город начинающийся с буквы <b>${lastLetter}</b>. `;
+      } else {
+        // Проверяем есть ли уже такой город в массиве
+        let firstLetter = cityValue[0].toUpperCase();
+        if (firstLetter !== lastLetter) {
+          message.innerHTML = `Название города должно начинаться с буквы <b style="color: red">${lastLetter}</b>.`;
+        } else {
+          addCityToArray(cityValue);
+          message.innerHTML = `Игрок ${currentPlayer}, ввел город: <b>${cityValue}</b>.  Введите город начинающийся с буквы <b>${lastLetter}</b>. `;
         }
-        // console.log("Город:", cityValue, "существует:", someCity);
-        // console.log();
-
-        // console.log("Город:", cityValue, "существует:", someCity);
       }
+      currentPlayer = currentPlayer === 1 ? 2 : 1;
+      currentPlayerElem.textContent = `Вводит: Игрок ${currentPlayer}`;
+      cityInput.value = "";
     }
   }
 
@@ -89,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       player: currentPlayer,
     });
 
-    currentPlayer = currentPlayer === 1 ? 2 : 1;
+    lastLetter = city.slice(-1).toUpperCase();
   }
 
   function finishGame() {

@@ -69,6 +69,8 @@ body {
   color: #000;
   white-space: normal;
   display: none;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 .buttons-row {
